@@ -1,0 +1,34 @@
+{
+  "title" : "Lease Classification",
+  "intro": ["hi",
+    "I am the Lease Determination App",
+    "I can help you decide whether a contract is a lease and whether it is a finance lease or operating lease"
+  ],
+  "questions" : [
+    { "id": "0",
+      "question" : "Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term? ",
+      "options" : [
+        "yes",
+        "no"
+      ],
+      "question_ids" : [
+        "2",
+        "3"
+      ]
+    },{ "id" : "1",
+      "question": "",
+      "options": [
+        "yes",
+        "no",
+        "both"
+      ],
+      "question_ids": [
+        "6",
+        "3",
+        "4"
+      ]
+    }
+
+
+  ]
+}

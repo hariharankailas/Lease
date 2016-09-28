@@ -20,7 +20,7 @@
         android:layout_above="@+id/notMain"
         android:layout_alignParentTop="true"
         android:divider="@null"
-        android:layoutAnimation="@anim/layout_animator"
+
         android:scrollbars="none"
         android:transcriptMode="alwaysScroll">
     </ListView>

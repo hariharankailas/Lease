@@ -24,6 +24,8 @@ package com.deloitte.leaseclassification;
 
         import java.util.ArrayList;
 
+        import static com.deloitte.leaseclassification.R.anim.layout_animator;
+
 /**
  * Created by hariramesh on 9/23/16.
  */
@@ -57,8 +59,9 @@ public class ListAdapter extends ArrayAdapter<String> {
         TextView text = (TextView)inflater.findViewById(R.id.text1);
 
 
-//        Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
-        text.setText(a.get(position));
+//    Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
+       text.setText(a.get(position));
+
 
         if(position==0||position==1)
         {
@@ -73,6 +76,9 @@ public class ListAdapter extends ArrayAdapter<String> {
         {
             text.setBackground(getContext().getResources().getDrawable(R.drawable.round_green_bg));
             text.setTextColor(getContext().getResources().getColor(R.color.buttonHolder));
+            text.setGravity(Gravity.CENTER);
+         //   text.setAnimation(slideUp);
+          //  text.startAnimation(slideUp);
         }
         else
         {
@@ -81,9 +87,11 @@ public class ListAdapter extends ArrayAdapter<String> {
             text.setLayoutParams(lp);
             text.setBackground(getContext().getResources().getDrawable(R.drawable.round_ques_bg));
             text.setTextColor(getContext().getResources().getColor(R.color.buttonHolder));
+        //    text.startAnimation(slideUp);
+        //    text.startAnimation(slideUp);
 
         }
-//        text.setAnimation(slideUp);
+      //  text.setAnimation(slideUp);
 //        text.startAnimation(slideUp);
         return inflater;
 

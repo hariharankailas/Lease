@@ -1,6 +1,8 @@
 package com.deloitte.leaseclassification;
 
+        import android.annotation.TargetApi;
         import android.app.ActionBar;
+        import android.os.Build;
         import android.os.Bundle;
         import android.os.CountDownTimer;
         import android.support.v7.app.AppCompatActivity;
@@ -184,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
 // with initial id values.
 //Depending on the size of the dynamicButtonId list, the number of buttons will be decided.
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void DynamicButtons(int noOfButtons, ArrayList<Integer> buttonId, ArrayList<String> buttonText) {
 
         //Linear layout where the buttons will appear,positioned just below the listView
@@ -198,7 +201,10 @@ public class MainActivity extends AppCompatActivity {
             final Button mButton = new Button(MainActivity.this);
             mButton.setText(bText);
             mButton.setId(buttonid);
-            mButton.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT));
+            mButton.setBackground(this.getResources().getDrawable(R.drawable.round_button));
+            //mButton.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(70,0,0,0);mButton.setLayoutParams(layoutParams);
 
             //Adding the button to the user interface
             mButton.clearAnimation();

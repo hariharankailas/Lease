@@ -5,109 +5,162 @@
     "I am the Lease Determination App",
     "I can help you decide whether a contract is a lease and whether it is a finance lease or operating lease"
   ],
-  "questionsVOs": [
+  "questionsVOs":[
     {
       "id": "0",
-      "question": "Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term? ",
-      "options": [
+      "question": "Does the customer have the right to obtain substantially all of the economic benefits from use?",
+      "options":[
         "yes",
         "no"
       ],
       "question_ids": [
-        "2",
-        "3"
+        "1",
+        "5"
       ]
     },
     {
       "id": "1",
-      "question": "WataShiva Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term? ",
+      "question": "Who has the right to direct how and for what purpose the asset is used?",
       "options": [
-        "yes",
-        "no",
-        "both"
+        "Customer",
+        "Neither",
+        "Supplier"
       ],
       "question_ids": [
-        "1",
-        "5",
-        "2"
+        "2",
+        "2",
+        "5"
       ]
     },
 
     {
       "id": "2",
-      "question": "WataShiva Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term? ",
+      "question": "Does the customer have the right to operate the asset?",
       "options": [
         "yes",
-        "no",
-        "both"
-      ],
-      "question_ids": [
-        "1",
-        "2",
-        "5"
-      ]
-    },{
-      "id": "3",
-      "question": "Kaneki ",
-      "options": [
-        "yes",
-        "no",
-        "both"
-      ],
-      "question_ids": [
-        "3",
-        "5",
-        "1"
-      ]
-    },{
-      "id": "4",
-      "question": "Toka ",
-      "options": [
-        "yes",
-        "no",
-        "both"
-      ],
-      "question_ids": [
-        "6",
-        "3",
-        "4"
-      ]
-    },{
-      "id": "5",
-      "question": "The one eyed owl ",
-      "options": [
-        "yes",
-        "no",
-        "both"
+        "no"
       ],
       "question_ids": [
         "4",
-        "3",
-        "2"
-      ]
-    },{
-      "id": "6",
-      "question": "Vegeta",
-      "options": [
-        "yes",
-        "no",
-        "both"
-      ],
-      "question_ids": [
-        "6",
-        "4",
-        "1"
+        "3"
       ]
     },
     {
-          "id": "7",
-          "question": "NOT ELIGIBLE",
-          "options": [
-            "RESTART"
-          ],
-          "question_ids": [
-            "0"
-          ]
-        }
+      "id": "3",
+      "question": "Did the customer design the asset?",
+      "options": [
+        "yes",
+        "no"
+      ],
+      "question_ids": [
+        "4",
+        "5"
+      ]
+    },
+    {
+      "id": "4",
+      "question": "Contract contains a lease",
+      "options": [
+        "NEXT STEP"
+      ],
+      "question_ids": ["6"
+      ]
+    },
+    {
+      "id": "5",
+      "question": "Contract does not contain a lease",
+      "options": [
+        "THE END"
+      ],
+      "question_ids": ["0"
+
+      ]
+    },
+      {
+      "id": "6",
+      "question": "Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term?",
+      "options": [
+        "yes",
+        "no"
+      ],
+      "question_ids": [
+        "11",
+        "7"
+      ]
+    },
+    {
+      "id": "7",
+      "question": "Does the lease grant the lessee an option to purchase the underlying asset that the lessee is reasonably certain to exercise?",
+      "options": [
+        "yes",
+        "no"
+
+      ],
+      "question_ids": [
+        "11",
+        "8"
+
+      ]
+    },
+
+    {
+      "id": "8",
+      "question": "Is the lease term for a major part of the remaining economic life of the underlying asset?",
+      "options": [
+        "yes",
+        "no"
+
+      ],
+      "question_ids": [
+        "11",
+        "9"
+
+      ]
+    },
+     {
+      "id": "9",
+      "question": "Does the present value of the sum of (1) the lease payments and (2) any lease residual value guarantee not reflected in the lease payments, equal or exceed substantially all of the underlying asset’s fair value?",
+      "options": [
+        "yes",
+        "no"
+
+      ],
+      "question_ids": [
+        "11",
+        "10"
+      ]
+    },
+     {
+      "id": "10",
+      "question": "Is the underlying asset of such a specialized nature that it is expected to have no alternative use to the lessor at the end of the lease term?",
+      "options": [
+        "yes",
+        "no"
+      ],
+      "question_ids": [
+        "11",
+        "12"
+      ]
+    },
+    {
+      "id": "11",
+      "question": "Lesse classifies lease as a finance lease",
+      "options": [
+       "RESTART"
+      ],
+      "question_ids": [
+        "0"
+      ]
+    },
+     {
+      "id": "12",
+      "question": "Lessee classifies lease as an operating lease",
+      "options": [
+        "RESTART"
+      ],
+      "question_ids": [
+        "0"
+      ]
+    }
   ]
 }

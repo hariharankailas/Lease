@@ -6,7 +6,14 @@
 
     <solid android:color="@color/userBubble" />
 
+<corners
 
-
-    <corners android:radius="10dp" />
+    android:bottomRightRadius="0dp"
+    android:bottomLeftRadius="20dp"
+    android:topLeftRadius="20dp"
+    android:topRightRadius="20dp"/>
+    <padding android:bottom="20dp"
+        android:left="20dp"
+        android:right="20dp"
+        android:top="20dp"/>
 </shape>

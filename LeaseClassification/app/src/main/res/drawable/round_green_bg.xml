@@ -5,6 +5,9 @@
         android:color="@color/answerBubble" />
 
     <solid android:color="@color/answerBubble" />
-
-    <corners android:radius="10dp" />
+    <corners
+        android:bottomRightRadius="160dp"
+    android:bottomLeftRadius="0dp"
+    android:topLeftRadius="160dp"
+    android:topRightRadius="160dp"/>
 </shape>

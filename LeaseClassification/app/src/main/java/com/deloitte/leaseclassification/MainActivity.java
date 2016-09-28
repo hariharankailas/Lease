@@ -4,8 +4,10 @@ package com.deloitte.leaseclassification;
         import android.app.ActionBar;
         import android.os.Build;
         import android.os.Bundle;
+        import android.os.Handler;
         import android.os.CountDownTimer;
         import android.support.v7.app.AppCompatActivity;
+        import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.animation.Animation;
@@ -24,7 +26,6 @@ package com.deloitte.leaseclassification;
         import java.util.ArrayList;
         import java.util.Timer;
         import java.util.TimerTask;
-        import java.util.logging.Handler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private int noOfOptions;
     private String theJSON;
     private ListAdapter adapter;
+    private ListView list;
 
     ArrayList<Integer> dynamicButtonId = new ArrayList<Integer>();
     ArrayList<String> buttonText = new ArrayList<String>();
@@ -157,30 +159,51 @@ public class MainActivity extends AppCompatActivity {
     private void SetInitialList() {
         //Initially the intro and the first question is loaded.
 
-        final ListView list = (ListView) findViewById(R.id.bubbleList);
-        View headerView = ((LayoutInflater)this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
+        list = (ListView) findViewById(R.id.bubbleList);
+        final View headerView = ((LayoutInflater)this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
         list.addHeaderView(headerView);
+        adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
+        list.setAdapter(adapter);
 
-        listViewArray.add(mLeaseVO.getTitle());
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+               setInitialParams();
+            }
+        }, 3000);
+
+
+    }
+        private void setInitialParams() {
+            Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+//            list.setAnimation(slideUp);
+
+            listViewArray.add(mLeaseVO.getTitle());
 
         {
             listViewArray.add(mLeaseVO.getIntro().get(0).toString());
         }
         listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
 
-
-        adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
-        list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+            list.post(new Runnable() {
+                @Override
+                public void run() {
+                    // Select the last row so it will scroll into view...
+                    list.setSelection(adapter.getCount() - 1);
+                }
+            });
         dynamicButtonId.add(2);
         dynamicButtonId.add(7);
         noOfOptions = dynamicButtonId.size();
         buttonText.add("yes");
         buttonText.add("no");
-
         DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
 
+        }
 
-    }
 
 //The buttons can be added after sleeping for a while.
 // with initial id values.
@@ -202,7 +225,6 @@ public class MainActivity extends AppCompatActivity {
             mButton.setText(bText);
             mButton.setId(buttonid);
             mButton.setBackground(this.getResources().getDrawable(R.drawable.round_button));
-            //mButton.setLayoutParams(new ActionBar.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(70,0,0,0);mButton.setLayoutParams(layoutParams);
 
@@ -211,10 +233,6 @@ public class MainActivity extends AppCompatActivity {
             mButton.setAnimation(buttonSLide);
             mButton.startAnimation(buttonSLide);
             mLinearLayout.addView(mButton);
-
-
-
-
 
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -268,5 +286,12 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    private void refresh(){
+
+
+
+
+    }
+
 
 }

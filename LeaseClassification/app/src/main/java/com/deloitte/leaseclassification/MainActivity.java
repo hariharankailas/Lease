@@ -288,9 +288,6 @@ public class MainActivity extends AppCompatActivity {
     }
     private void refresh(){
 
-        listViewArray.clear();
-        adapter.notifyDataSetChanged();
-
 
 
 

@@ -178,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
     }
         private void setInitialParams() {
             Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
-//            list.setAnimation(slideUp);
+            list.setAnimation(slideUp);
+            list.startAnimation(slideUp);
 
             listViewArray.add(mLeaseVO.getTitle());
 

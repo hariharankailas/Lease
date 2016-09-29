@@ -11,6 +11,7 @@ package com.deloitte.leaseclassification;
         import android.graphics.drawable.Drawable;
         import android.graphics.drawable.GradientDrawable;
         import android.os.Build;
+        import android.util.Log;
         import android.view.Gravity;
         import android.view.LayoutInflater;
         import android.view.View;
@@ -23,6 +24,7 @@ package com.deloitte.leaseclassification;
         import android.widget.TextView;
 
         import java.util.ArrayList;
+        import java.util.List;
 
         import static com.deloitte.leaseclassification.R.anim.layout_animator;
 
@@ -40,9 +42,12 @@ public class ListAdapter extends ArrayAdapter<String> {
 
 
     ArrayList<String> a;
-    public ListAdapter(Context context, int resource, ArrayList<String> arr) {
+   int id;
+    public ListAdapter(Context context, int resource, ArrayList<String> arr, int id) {
         super(context, resource);
         a = arr;
+        this.id =id;
+        Log.i("999",""+id);
     }
 
     @Override
@@ -61,9 +66,19 @@ public class ListAdapter extends ArrayAdapter<String> {
 
 //    Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
        text.setText(a.get(position));
+        Log.i("99999",""+id);
+
+        if(id ==4||id ==5||id ==11||id ==12)
+
+        {
+            Log.i("99",""+id);
+            text.setBackground(getContext().getResources().getDrawable(R.drawable.round_gradient_bg));
+            text.setTextColor(getContext().getResources().getColor(R.color.colorPrimary));
+
+        }
 
 
-        if(position==0||position==1)
+        if(position==0||position==1||position==2)
         {
             text.setBackgroundColor(getContext().getResources().getColor(R.color.appBubble));
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
@@ -72,9 +87,9 @@ public class ListAdapter extends ArrayAdapter<String> {
 
         }
         else
-        if(position % 2 ==1)
+        if(position % 2 !=1)
         {
-            text.setBackground(getContext().getResources().getDrawable(R.drawable.round_green_bg));
+            text.setBackground(getContext().getResources().getDrawable(R.drawable.round_button));
             text.setTextColor(getContext().getResources().getColor(R.color.buttonHolder));
             text.setGravity(Gravity.CENTER);
          //   text.setAnimation(slideUp);

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -26,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private String theJSON;
     private ListAdapter adapter;
     private ListView list;
+    private ArrayList<String> qId = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +51,20 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action);
+        View view = getSupportActionBar().getCustomView();
+             ImageView icon = (ImageView)findViewById(R.id.action_bar_forward);
+        icon.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                // your code here
+                refresh();
+            }
+        });
 
         populateModel();
 
-        SetInitialList();
+        SetInitialList(0);
 
     }
 
@@ -118,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
                 QuestionsVO localQuestionsVO = new QuestionsVO();
                 JSONObject questions = jsonQuestions.getJSONObject(i);
                 localQuestionsVO.setId(questions.getString("id"));
+                qId.add(localQuestionsVO.getId().toString());
+
+                Log.v("id",""+localQuestionsVO.getId());
+
+                //SETTING THE LIST qId FOR THE ADAPTER
+
                 localQuestionsVO.setQuestion(questions.getString("question"));
 
                 //Options are being set
@@ -156,35 +175,63 @@ public class MainActivity extends AppCompatActivity {
 
 //Initially setting the listView with the intro
 
-    private void SetInitialList() {
+
+    private void SetInitialList(int a) {
         //Initially the intro and the first question is loaded.
-
         list = (ListView) findViewById(R.id.bubbleList);
-        final View headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
-        list.addHeaderView(headerView);
-        adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
-        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
-        swingBottomInAnimationAdapter.setAbsListView(list);
-        swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
-        list.setAdapter(swingBottomInAnimationAdapter);
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                setInitialParams();
-            }
-        }, 2000);
+        adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray,0);
+        if (a == 1) {
 
 
+
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
+            swingBottomInAnimationAdapter.setAbsListView(list);
+            swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
+            list.setAdapter(swingBottomInAnimationAdapter);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    setInitialParams();
+                }
+            }, 2000);
+
+
+        } else {
+
+
+            final View headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
+            list.addHeaderView(headerView);
+            adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray,0);
+            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
+            swingBottomInAnimationAdapter.setAbsListView(list);
+            swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
+            list.setAdapter(swingBottomInAnimationAdapter);
+
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    setInitialParams();
+                }
+            }, 2000);
+
+
+        }
     }
 
+
+
+
+
     private void setInitialParams() {
-        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+//        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
 //            list.setAnimation(slideUp);
 
-        listViewArray.add(mLeaseVO.getTitle());
         listViewArray.add(mLeaseVO.getIntro().get(0).toString());
         listViewArray.add(mLeaseVO.getIntro().get(1).toString());
         listViewArray.add(mLeaseVO.getIntro().get(2).toString());
@@ -192,7 +239,8 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
 
-
+        dynamicButtonId.clear();
+        buttonText.clear();
         dynamicButtonId.add(2);
         dynamicButtonId.add(5);
         noOfOptions = dynamicButtonId.size();
@@ -201,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
         DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
 
     }
+
 
 
 //The buttons can be added after sleeping for a while.
@@ -222,6 +271,7 @@ public class MainActivity extends AppCompatActivity {
             final Button mButton = new Button(MainActivity.this);
             mButton.setText(bText);
             mButton.setId(buttonid);
+            mButton.setTextColor(this.getResources().getColor(R.color.buttonHolder));
             mButton.setBackground(this.getResources().getDrawable(R.drawable.round_button));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             layoutParams.setMargins(70, 0, 0, 0);
@@ -292,7 +342,9 @@ public class MainActivity extends AppCompatActivity {
                 listViewArray.add(answer);
 
                 listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
-                adapter.notifyDataSetChanged();
+                adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray,id);
+                list.setAdapter(adapter);
+               // adapter.notifyDataSetChanged();
 
                 //Adding the value of the button chosen to the screen
 
@@ -311,8 +363,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void refresh() {
+   public void refresh(){
 
+        listViewArray.clear();
+        adapter.notifyDataSetChanged();
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.notMain);
+        linearLayout.removeAllViews();
+        SetInitialList(1);
 
     }
 

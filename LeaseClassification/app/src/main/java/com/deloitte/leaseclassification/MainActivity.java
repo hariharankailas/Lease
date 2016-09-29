@@ -183,8 +183,6 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray,0);
         if (a == 1) {
 
-
-
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
             swingBottomInAnimationAdapter.setAbsListView(list);
             swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
@@ -205,6 +203,8 @@ public class MainActivity extends AppCompatActivity {
 
             final View headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
             list.addHeaderView(headerView);
+
+
             adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray,0);
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
             swingBottomInAnimationAdapter.setAbsListView(list);
@@ -219,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
                     setInitialParams();
                 }
             }, 2000);
-
 
         }
     }
@@ -338,26 +337,34 @@ public class MainActivity extends AppCompatActivity {
         buttonText.clear();
         for (int i = 0; i < mLeaseVO.getQuestion().size(); i++) {
             //Adding the QuestionsVO corresponding to the button click
+
             if (Integer.parseInt(mLeaseVO.getQuestion().get(i).getId()) == id) {
-                listViewArray.add(answer);
+                if (id == 5) {
+                    Log.i("@@@@@",""+id);
+                    final View headerConclusion = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.conclusion_header, null, false);
+                    list.addFooterView(headerConclusion);
+                }
+                    listViewArray.add(answer);
+                    listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
 
-                listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
-                adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray,id);
-                list.setAdapter(adapter);
-               // adapter.notifyDataSetChanged();
-
-                //Adding the value of the button chosen to the screen
+                    //  adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray,id);
+                    //  list.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
 
 
-                //Populating the dynamicButtonId with the options to create the next set of buttons dynamically
-                for (int j = 0; j < mLeaseVO.getQuestion().get(i).getQuestionIds().size(); j++) {
-                    dynamicButtonId.add(Integer.parseInt(mLeaseVO.getQuestion().get(i).getQuestionIds().get(j)));
-                    buttonText.add(mLeaseVO.getQuestion().get(i).getOptions().get(j));
+                    //Adding the value of the button chosen to the screen
+
+
+                    //Populating the dynamicButtonId with the options to create the next set of buttons dynamically
+                    for (int j = 0; j < mLeaseVO.getQuestion().get(i).getQuestionIds().size(); j++) {
+                        dynamicButtonId.add(Integer.parseInt(mLeaseVO.getQuestion().get(i).getQuestionIds().get(j)));
+                        buttonText.add(mLeaseVO.getQuestion().get(i).getOptions().get(j));
+                    }
+
+                    noOfOptions = dynamicButtonId.size();
+                    DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
                 }
 
-                noOfOptions = dynamicButtonId.size();
-                DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
-            }
         }
 
 

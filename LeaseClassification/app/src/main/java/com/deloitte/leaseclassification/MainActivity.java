@@ -1,44 +1,45 @@
 package com.deloitte.leaseclassification;
 
-        import android.annotation.TargetApi;
-        import android.app.ActionBar;
-        import android.os.Build;
-        import android.os.Bundle;
-        import android.os.Handler;
-        import android.os.CountDownTimer;
-        import android.support.v7.app.AppCompatActivity;
-        import android.util.Log;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.Button;
-        import android.widget.LinearLayout;
-        import android.widget.ListView;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.CountDownTimer;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
-        import org.json.JSONArray;
-        import org.json.JSONException;
-        import org.json.JSONObject;
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 
-        import java.io.BufferedReader;
-        import java.io.IOException;
-        import java.io.InputStreamReader;
-        import java.util.ArrayList;
-        import java.util.Timer;
-        import java.util.TimerTask;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
     private final ArrayList<String> listViewArray = new ArrayList<>();
+    ArrayList<Integer> dynamicButtonId = new ArrayList<Integer>();
+    ArrayList<String> buttonText = new ArrayList<String>();
     //Primary data model instance
     private LeaseVO mLeaseVO = new LeaseVO();
     private int noOfOptions;
     private String theJSON;
     private ListAdapter adapter;
     private ListView list;
-
-    ArrayList<Integer> dynamicButtonId = new ArrayList<Integer>();
-    ArrayList<String> buttonText = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +102,11 @@ public class MainActivity extends AppCompatActivity {
             JSONArray jsonIntro = jsonObject.getJSONArray("intro");
 
             //Intro content
-
+            ArrayList<String> introList = new ArrayList<>();
             for (int i = 0; i < jsonIntro.length(); i++) {
-                ArrayList<String> introList = new ArrayList<>();
                 introList.add(jsonIntro.get(i).toString());
-                mLeaseVO.setIntro(introList);
             }
+            mLeaseVO.setIntro(introList);
 
             //Questions data model is being populated
 
@@ -160,49 +160,47 @@ public class MainActivity extends AppCompatActivity {
         //Initially the intro and the first question is loaded.
 
         list = (ListView) findViewById(R.id.bubbleList);
-        final View headerView = ((LayoutInflater)this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
+        final View headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
         list.addHeaderView(headerView);
         adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
-        list.setAdapter(adapter);
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
+        swingBottomInAnimationAdapter.setAbsListView(list);
+        swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
+        list.setAdapter(swingBottomInAnimationAdapter);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
 
             @Override
             public void run() {
-               setInitialParams();
+                setInitialParams();
             }
-        }, 3000);
+        }, 2000);
 
 
     }
-        private void setInitialParams() {
-            Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+
+    private void setInitialParams() {
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
 //            list.setAnimation(slideUp);
 
-            listViewArray.add(mLeaseVO.getTitle());
-
-        {
-            listViewArray.add(mLeaseVO.getIntro().get(0).toString());
-        }
+        listViewArray.add(mLeaseVO.getTitle());
+        listViewArray.add(mLeaseVO.getIntro().get(0).toString());
+        listViewArray.add(mLeaseVO.getIntro().get(1).toString());
+        listViewArray.add(mLeaseVO.getIntro().get(2).toString());
         listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
 
         adapter.notifyDataSetChanged();
-            list.post(new Runnable() {
-                @Override
-                public void run() {
-                    // Select the last row so it will scroll into view...
-                    list.setSelection(adapter.getCount() - 1);
-                }
-            });
+
+
         dynamicButtonId.add(2);
-        dynamicButtonId.add(7);
+        dynamicButtonId.add(5);
         noOfOptions = dynamicButtonId.size();
         buttonText.add("yes");
         buttonText.add("no");
         DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
 
-        }
+    }
 
 
 //The buttons can be added after sleeping for a while.
@@ -226,19 +224,51 @@ public class MainActivity extends AppCompatActivity {
             mButton.setId(buttonid);
             mButton.setBackground(this.getResources().getDrawable(R.drawable.round_button));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(70,0,0,0);mButton.setLayoutParams(layoutParams);
+            layoutParams.setMargins(70, 0, 0, 0);
+            mButton.setLayoutParams(layoutParams);
 
             //Adding the button to the user interface
-            mButton.clearAnimation();
-            mButton.setAnimation(buttonSLide);
+//            mButton.clearAnimation();
+//            mButton.setAnimation(buttonSLide);
             mButton.startAnimation(buttonSLide);
-            mLinearLayout.addView(mButton);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    mLinearLayout.addView(mButton);
+                }
+            }, 800);
+
 
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //Remove the buttons of the screen on click
-                    mLinearLayout.removeAllViews();
+//                    mLinearLayout.removeAllViews();
+
+                    Animation buttonSLideExit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_button_exit);
+                    mLinearLayout.startAnimation(buttonSLideExit);
+                    buttonSLideExit.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+
+                                mLinearLayout.removeAllViews();
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+
+
 
                     //Adds the next set of questions depending the button clicked.
                     addQuestion(mButton.getId(), (String) mButton.getText());
@@ -278,17 +308,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        //THE FINAL BUTTONS dummy dummy dummy
-        int finalButtons = 99;
-        if (finalButtons == 98) {
-            LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.notMain);
-            mLinearLayout.removeAllViews();
 
-        }
     }
-    private void refresh(){
 
-
+    private void refresh() {
 
 
     }

@@ -9,8 +9,8 @@
 
     <solid android:color="@color/answerBubble" />
     <corners
-        android:bottomRightRadius="160dp"
+        android:bottomRightRadius="100dp"
     android:bottomLeftRadius="0dp"
-    android:topLeftRadius="160dp"
-    android:topRightRadius="160dp"/>
+    android:topLeftRadius="100dp"
+    android:topRightRadius="100dp"/>
 </shape>

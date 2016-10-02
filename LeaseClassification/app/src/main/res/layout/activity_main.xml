@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@color/colorAccent"
+    android:background="#ffffff"
     android:id = "@+id/main"
     tools:context="com.deloitte.leaseclassification.MainActivity"
     >
@@ -22,6 +22,7 @@
         android:paddingBottom="@dimen/activity_horizontal_margin"
         android:divider="@null"
         android:scrollbars="none"
+        android:background="@color/colorAccent"
         android:transcriptMode="alwaysScroll">
     </ListView>
 

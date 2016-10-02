@@ -4,7 +4,6 @@
 
         android:color="@color/answerButton" />
 
-    <solid android:color="@color/answerButton" />
-
-    <corners android:radius="60dp" />
+    <solid android:color="#7A8DAA" />
+    <corners android:radius="30dp" />
 </shape>

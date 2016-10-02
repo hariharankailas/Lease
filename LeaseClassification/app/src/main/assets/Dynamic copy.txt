@@ -61,7 +61,7 @@
       "id": "4",
       "question": "Contract contains a lease",
       "options": [
-        "NEXT STEP"
+        "Continue"
       ],
       "question_ids": ["6"
       ]

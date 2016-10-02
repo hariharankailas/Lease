@@ -27,12 +27,11 @@
         "Supplier"
       ],
       "question_ids": [
-        "2",
+        "4",
         "2",
         "5"
       ]
     },
-
     {
       "id": "2",
       "question": "Does the customer have the right to operate the asset?",
@@ -70,7 +69,7 @@
       "id": "5",
       "question": "Contract does not contain a lease",
       "options": [
-        "THE END"
+        "Cancel and Redo"
       ],
       "question_ids": ["0"
 
@@ -144,9 +143,9 @@
     },
     {
       "id": "11",
-      "question": "Lesse classifies lease as a finance lease",
+      "question": "Lessee classifies lease as a finance lease",
       "options": [
-       "RESTART"
+       "Restart"
       ],
       "question_ids": [
         "0"
@@ -156,7 +155,7 @@
       "id": "12",
       "question": "Lessee classifies lease as an operating lease",
       "options": [
-        "RESTART"
+        "Restart"
       ],
       "question_ids": [
         "0"

@@ -3,36 +3,21 @@ package com.deloitte.leaseclassification;
 
 
         import android.annotation.TargetApi;
-        import android.app.Activity;
-        import android.content.Context;
-        import android.graphics.Color;
-        import android.graphics.PorterDuff;
-        import android.graphics.PorterDuffColorFilter;
-        import android.graphics.drawable.Drawable;
-        import android.graphics.drawable.GradientDrawable;
-        import android.os.Build;
-        import android.text.Html;
-        import android.text.Spannable;
-        import android.text.SpannableString;
-        import android.text.style.RelativeSizeSpan;
-        import android.util.Log;
-        import android.view.Gravity;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.animation.Animation;
-        import android.view.animation.AnimationUtils;
-        import android.widget.AbsListView;
-        import android.widget.ArrayAdapter;
-        import android.widget.ImageView;
-        import android.widget.LinearLayout;
-        import android.widget.RelativeLayout;
-        import android.widget.TextView;
+import android.content.Context;
+import android.os.Build;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
-        import java.util.ArrayList;
-        import java.util.List;
-
-        import static com.deloitte.leaseclassification.R.anim.layout_animator;
+import java.util.ArrayList;
 
 /**
  * Created by hariramesh on 9/23/16.
@@ -49,10 +34,9 @@ public class ListAdapter extends ArrayAdapter<String> {
 
     ArrayList<String> a;
    int id;
-    public ListAdapter(Context context, int resource, ArrayList<String> arr, int id) {
+    public ListAdapter(Context context, int resource, ArrayList<String> arr) {
         super(context, resource);
         a = arr;
-        this.id =id;
         Log.i("999",""+id);
     }
 

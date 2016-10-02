@@ -44,22 +44,22 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter adapter;
     private ListView list;
     private ArrayList<String> qId = new ArrayList<>();
-    private int z;
+//    private int z;
     private  View headerView;
-    private static int o =0;
+//    private static int o =0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+
         list= (ListView)findViewById(R.id.bubbleList);
         //CENTERING THE LEASE LOGO
-        list.setPadding(0,400,0,0);
+        list.setPadding(0,500,0,0);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action);
-        View view = getSupportActionBar().getCustomView();
-             ImageView icon = (ImageView)findViewById(R.id.action_bar_forward);
+        ImageView icon = (ImageView)findViewById(R.id.action_bar_forward);
         icon.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
         populateModel();
 
-        SetInitialList(0);
+        SetInitialList();
 
     }
 
@@ -184,38 +184,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    private void SetInitialList(int a) {
+    private void SetInitialList() {
         //Initially the intro and the first question is loaded.
         list = (ListView) findViewById(R.id.bubbleList);
-
-        adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray,0);
-        if (a == 1) {
-
-            list.setPadding(0,500,0,0);
-            headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
-            list.addHeaderView(headerView);
-            adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray,0);
-            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
-            swingBottomInAnimationAdapter.setAbsListView(list);
-            swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
-            list.setAdapter(swingBottomInAnimationAdapter);
-
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    setInitialParams();
-                }
-            }, 2000);
-
-
-        } else {
-
+        adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray);
 
             headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
             list.addHeaderView(headerView);
-            adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray,0);
+            adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
+        //Animation
             SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
             swingBottomInAnimationAdapter.setAbsListView(list);
             swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
@@ -230,79 +207,56 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 2500);
 
-        }
     }
-
-
-
-
 
     private void setInitialParams() {
 
 //        list.setPaddingRelative(0,150,0,0);
 
-        z=500;
+        final int[] z = {500};
 
         new CountDownTimer(500, 1) {
 
             public void onTick(long millisUntilFinished) {
-                list.setPadding(0, (z - 18), 0, 0);
+                list.setPadding(0, (z[0] - 18), 0, 0);
 
-                z = z - 18;
+                z[0] = z[0] - 18;
             }
 
             public void onFinish() {
-
-                Log.v("counters", "" + z);
-//                listViewArray.add(mLeaseVO.getIntro().get(0));
-//
-//
-//                adapter.notifyDataSetChanged();
-//                listViewArray.add(mLeaseVO.getIntro().get(1));
-//
-////                listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
-//                adapter.notifyDataSetChanged();
-//
-//              listViewArray.add(mLeaseVO.getIntro().get(2));
-//                adapter.notifyDataSetChanged();
-
-//                listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
-
-//                adapter.notifyDataSetChanged();
                 dynamicButtonId.clear();
-
-
                 buttonText.clear();
-                dynamicButtonId.add(2);
+
+                dynamicButtonId.add(1);
                 dynamicButtonId.add(5);
                 noOfOptions = dynamicButtonId.size();
                 buttonText.add("yes");
                 buttonText.add("no");
-                DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
+                DynamicButtons(noOfOptions,dynamicButtonId, buttonText);
 
 
             }
         }.start();
+
+        final int [] countIntroVar = {0};
 
         new CountDownTimer(1200, 300) {
 
             public void onTick(long millisUntilFinished) {
 
 
-                if(o<mLeaseVO.getIntro().size()){
-                listViewArray.add(mLeaseVO.getIntro().get(o));
-                Log.v("log",""+mLeaseVO.getIntro().get(o));
+                listViewArray.add(mLeaseVO.getIntro().get(countIntroVar[0]));
+                Log.v("log",""+mLeaseVO.getIntro().get(countIntroVar[0]));
                 adapter.notifyDataSetChanged();
-                Log.v("ol",""+o);
+                Log.v("ol",""+countIntroVar[0]);
 
 
-
-            }o++;}
+                countIntroVar[0]++;}
 
             public void onFinish() {
 
-                listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
-                adapter.notifyDataSetChanged();
+                    listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
+                    adapter.notifyDataSetChanged();
 
             }
         }.start();
@@ -420,21 +374,24 @@ public class MainActivity extends AppCompatActivity {
 
         dynamicButtonId.clear();
         buttonText.clear();
-        for (int i = 0; i < mLeaseVO.getQuestion().size(); i++) {
-            //Adding the QuestionsVO corresponding to the button click
+        //when the dynamic button to restart is clicked
+        if (id == 0) {
+            refresh();
+        }
 
-            if (Integer.parseInt(mLeaseVO.getQuestion().get(i).getId()) == id) {
+        else {
+            for (int i = 0; i < mLeaseVO.getQuestion().size(); i++) {
+                //Adding the QuestionsVO corresponding to the button click
+
+
+                if (Integer.parseInt(mLeaseVO.getQuestion().get(i).getId()) == id) {
 
                     listViewArray.add(answer);
                     listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
 
-                adapter.notifyDataSetChanged();
+                    adapter.notifyDataSetChanged();
 
-
-
-
-                //Adding the value of the button chosen to the screen
-
+                    //Adding the value of the button chosen to the screen
 
                     //Populating the dynamicButtonId with the options to create the next set of buttons dynamically
                     for (int j = 0; j < mLeaseVO.getQuestion().get(i).getQuestionIds().size(); j++) {
@@ -446,17 +403,18 @@ public class MainActivity extends AppCompatActivity {
                     DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
                 }
 
+            }
         }
     }
 
    public void refresh(){
-        o=0;
+        list.setPadding(0,500,0,0);
         listViewArray.clear();
         list.removeHeaderView(headerView);
         adapter.notifyDataSetChanged();
         LinearLayout linearLayout = (LinearLayout)findViewById(R.id.notMain);
         linearLayout.removeAllViews();
-        SetInitialList(1);
+        SetInitialList();
 
     }
 }

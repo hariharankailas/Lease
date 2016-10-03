@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
     private String theJSON;
     private ListAdapter adapter;
     private ListView list;
-    private ArrayList<String> qId = new ArrayList<>();
 //    private int z;
     private  View headerView;
 //    private static int o =0;
@@ -138,11 +137,6 @@ public class MainActivity extends AppCompatActivity {
                 QuestionsVO localQuestionsVO = new QuestionsVO();
                 JSONObject questions = jsonQuestions.getJSONObject(i);
                 localQuestionsVO.setId(questions.getString("id"));
-                qId.add(localQuestionsVO.getId().toString());
-
-                Log.v("id",""+localQuestionsVO.getId());
-
-                //SETTING THE LIST qId FOR THE ADAPTER
 
                 localQuestionsVO.setQuestion(questions.getString("question"));
 
@@ -180,8 +174,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//Initially setting the listView with the intro
-
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void SetInitialList() {
@@ -189,80 +181,77 @@ public class MainActivity extends AppCompatActivity {
         list = (ListView) findViewById(R.id.bubbleList);
         adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray);
 
-            headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
-            list.addHeaderView(headerView);
-            adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
-        //Animation
-            SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
-            swingBottomInAnimationAdapter.setAbsListView(list);
-            swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
-            list.setAdapter(swingBottomInAnimationAdapter);
+        //Setting the header logo
+        headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
+        list.addHeaderView(headerView);
+//      adapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
+        //Animation
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(adapter);
+        swingBottomInAnimationAdapter.setAbsListView(list);
+        swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
+        list.setAdapter(swingBottomInAnimationAdapter);
+
+        //Delay introduced for the start screen logo
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
                     setInitialParams();
                 }
             }, 2500);
-
     }
 
+    //Initially setting the listView with the intro
     private void setInitialParams() {
 
-//        list.setPaddingRelative(0,150,0,0);
 
-        final int[] z = {500};
 
         new CountDownTimer(500, 1) {
-
+            int z = list.getPaddingTop();
             public void onTick(long millisUntilFinished) {
-                list.setPadding(0, (z[0] - 18), 0, 0);
+                list.setPadding(0, (z - 18), 0, 0);
 
-                z[0] = z[0] - 18;
+                z = z - 18;
             }
 
             public void onFinish() {
-                dynamicButtonId.clear();
-                buttonText.clear();
 
-                dynamicButtonId.add(1);
-                dynamicButtonId.add(5);
-                noOfOptions = dynamicButtonId.size();
-                buttonText.add("yes");
-                buttonText.add("no");
-                DynamicButtons(noOfOptions,dynamicButtonId, buttonText);
-
-
+                Log.v("timer1","success");
             }
         }.start();
 
-        final int [] countIntroVar = {0};
+
 
         new CountDownTimer(1200, 300) {
-
+            int  countIntroVar =0;
             public void onTick(long millisUntilFinished) {
-
-
-                listViewArray.add(mLeaseVO.getIntro().get(countIntroVar[0]));
-                Log.v("log",""+mLeaseVO.getIntro().get(countIntroVar[0]));
+                listViewArray.add(mLeaseVO.getIntro().get(countIntroVar));
+                Log.v("log",""+mLeaseVO.getIntro().get(countIntroVar));
                 adapter.notifyDataSetChanged();
-                Log.v("ol",""+countIntroVar[0]);
-
-
-                countIntroVar[0]++;}
+                Log.v("ol",""+countIntroVar);
+                countIntroVar++;
+                }
 
             public void onFinish() {
-
                     listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
                     adapter.notifyDataSetChanged();
 
+                    dynamicButtonId.clear();
+                    buttonText.clear();
+
+                //To avoid multiple button generation on multiple tap on the refresh button
+
+                    dynamicButtonId.add(1);
+                    dynamicButtonId.add(5);
+                    noOfOptions = dynamicButtonId.size();
+                    buttonText.add("yes");
+                    buttonText.add("no");
+                    DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
+
             }
         }.start();
-
-//
-
 
     }
 
@@ -275,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
     public void DynamicButtons(int noOfButtons, ArrayList<Integer> buttonId, ArrayList<String> buttonText) {
 
         //Linear layout where the buttons will appear,positioned just below the listView
-        final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.notMain);
+        final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.buttonLayout);
 
         //Creating the Buttons dynamically and adding the id and text.
         Animation buttonSLide = AnimationUtils.loadAnimation(this, R.anim.slide_button);
@@ -412,9 +401,9 @@ public class MainActivity extends AppCompatActivity {
         listViewArray.clear();
         list.removeHeaderView(headerView);
         adapter.notifyDataSetChanged();
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.notMain);
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.buttonLayout);
         linearLayout.removeAllViews();
-        SetInitialList();
 
+        SetInitialList();
     }
 }

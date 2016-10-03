@@ -25,16 +25,22 @@
         android:transcriptMode="alwaysScroll">
     </ListView>
 
+
     <LinearLayout
+
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
         android:background="#ffffff"
         android:id="@+id/buttonLayout"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    </LinearLayout>
+
+
+</LinearLayout>
 
 
 

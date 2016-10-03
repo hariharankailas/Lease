@@ -13,7 +13,9 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+        import android.view.animation.Animation;
+        import android.view.animation.AnimationUtils;
+        import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,7 +53,7 @@ public class ListAdapter extends ArrayAdapter<String> {
         View inflater = LayoutInflater.from(getContext()).inflate(R.layout.bubblelist,parent,false);
         TextView text = (TextView)inflater.findViewById(R.id.text1);
 
-//    Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
+    Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
         text.setText(a.get(position));
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
@@ -70,8 +72,8 @@ public class ListAdapter extends ArrayAdapter<String> {
             text.setBackground(getContext().getResources().getDrawable(R.drawable.round_green_bg));
             text.setTextColor(getContext().getResources().getColor(R.color.buttonHolder));
             text.setGravity(Gravity.CENTER);
-         //   text.setAnimation(slideUp);
-          //  text.startAnimation(slideUp);
+            text.setAnimation(slideUp);
+            text.startAnimation(slideUp);
         }
         else
         {
@@ -95,13 +97,13 @@ public class ListAdapter extends ArrayAdapter<String> {
                 text.setText(textToShow);
 
             }
-            if(a.get(position).equals("Lesse classifies lease as a finance lease")){
+            if(a.get(position).equals("Lessee classifies lease as a finance lease")){
                 text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.exclamation, 0, 0, 0);
                 text.setCompoundDrawablePadding(60);
                 text.setTextSize(15);
                 text.setBackground(getContext().getResources().getDrawable(R.drawable.round_gradient_bg));
                 // text.setText(Html.fromHtml("<h5>Contract contains </h5>"+ "<h1>"+"LEASE"));
-                final SpannableString textToShow = new SpannableString("Lesse classifies lease as a: Finance Lease");
+                final SpannableString textToShow = new SpannableString("Lessee classifies lease as a Finance Lease");
                 textToShow.setSpan(new RelativeSizeSpan(2f), textToShow.length() - "Finance Lease".length(),textToShow.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 //ggg
              //   String CurrentString = textToShow;
@@ -118,7 +120,7 @@ public class ListAdapter extends ArrayAdapter<String> {
                 text.setTextSize(20);
                 text.setBackground(getContext().getResources().getDrawable(R.drawable.round_gradient_bg));
                 // text.setText(Html.fromHtml("<h5>Contract contains </h5>"+ "<h1>"+"LEASE"));
-                final SpannableString textToShow = new SpannableString("Lesse classifies lease as a Operating Lease");
+                final SpannableString textToShow = new SpannableString("Lessee classifies lease as a Operating Lease");
                 textToShow.setSpan(new RelativeSizeSpan(2f), textToShow.length() - "Operating Lease".length(),textToShow.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 text.setText(textToShow);
             }

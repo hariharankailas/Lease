@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,8 +44,11 @@ public class MainActivity extends AppCompatActivity {
     private String theJSON;
     private ListAdapter adapter;
     private ListView list;
-//    private int z;
+    private boolean isRefreshing;
     private  View headerView;
+    private ImageView icon;
+
+
 //    private static int o =0;
 
     @Override
@@ -55,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         list= (ListView)findViewById(R.id.bubbleList);
         //CENTERING THE LEASE LOGO
-        list.setPadding(0,500,0,0);
+        list.setPadding(0,400,0,0);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action);
-        ImageView icon = (ImageView)findViewById(R.id.action_bar_forward);
+        icon = (ImageView)findViewById(R.id.action_bar_forward);
         icon.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -67,8 +71,11 @@ public class MainActivity extends AppCompatActivity {
                 refresh();
             }
         });
+        icon.setEnabled(false);
 
         populateModel();
+        LinearLayout linear = (LinearLayout)findViewById(R.id.buttonLayout);
+        linear.setBackgroundColor(getResources().getColor(R.color.colorAccent));
 
         SetInitialList();
 
@@ -175,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+ //   @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void SetInitialList() {
         //Initially the intro and the first question is loaded.
         list = (ListView) findViewById(R.id.bubbleList);
@@ -211,9 +218,9 @@ public class MainActivity extends AppCompatActivity {
         new CountDownTimer(500, 1) {
             int z = list.getPaddingTop();
             public void onTick(long millisUntilFinished) {
-                list.setPadding(0, (z - 18), 0, 0);
+                list.setPadding(0, (z - 15), 0, 0);
 
-                z = z - 18;
+                z = z - 15;
             }
 
             public void onFinish() {
@@ -242,14 +249,15 @@ public class MainActivity extends AppCompatActivity {
                     buttonText.clear();
 
                 //To avoid multiple button generation on multiple tap on the refresh button
-
+                LinearLayout linear = (LinearLayout)findViewById(R.id.buttonLayout);
+                linear.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
                     dynamicButtonId.add(1);
                     dynamicButtonId.add(5);
                     noOfOptions = dynamicButtonId.size();
                     buttonText.add("yes");
                     buttonText.add("no");
                     DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
-
+                isRefreshing = false;
             }
         }.start();
 
@@ -322,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     //Remove the buttons of the screen on click
 //                    mLinearLayout.removeAllViews();
-
+                    icon.setEnabled(true);
                     Animation buttonSLideExit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_button_exit);
                     mLinearLayout.startAnimation(buttonSLideExit);
                     buttonSLideExit.setAnimationListener(new Animation.AnimationListener() {
@@ -376,6 +384,7 @@ public class MainActivity extends AppCompatActivity {
                 if (Integer.parseInt(mLeaseVO.getQuestion().get(i).getId()) == id) {
 
                     listViewArray.add(answer);
+                    adapter.notifyDataSetChanged();
                     listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
 
                     adapter.notifyDataSetChanged();
@@ -397,13 +406,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
    public void refresh(){
-        list.setPadding(0,500,0,0);
-        listViewArray.clear();
-        list.removeHeaderView(headerView);
-        adapter.notifyDataSetChanged();
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.buttonLayout);
-        linearLayout.removeAllViews();
+       if(!isRefreshing) {
+           list.setPadding(0, 400, 0, 0);
+           listViewArray.clear();
+           list.removeHeaderView(headerView);
+           adapter.notifyDataSetChanged();
+           LinearLayout linearLayout = (LinearLayout) findViewById(R.id.buttonLayout);
+           linearLayout.removeAllViews();
+           // Log.i("000","refresh clicked");
+           SetInitialList();
+           isRefreshing = true;
+           icon.setEnabled(false);
+       }
 
-        SetInitialList();
     }
 }

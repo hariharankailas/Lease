@@ -8,4 +8,5 @@
     <color name="answerBubble">#46CEC5</color>
     <color name="answerButton">#8695ac</color>
     <color name="buttonHolder">#ffffff</color>
+    <color name="transparent">#01000000</color>
 </resources>

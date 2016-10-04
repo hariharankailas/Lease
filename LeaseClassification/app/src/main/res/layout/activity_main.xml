@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/bubbleList"
-        android:layout_above="@+id/buttonLayout"
+        android:layout_above="@+id/horizontalLayout"
         android:layout_alignParentTop="true"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -24,24 +24,32 @@
         android:background="@color/colorAccent"
         android:transcriptMode="alwaysScroll">
     </ListView>
-
+<HorizontalScrollView
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:id="@+id/horizontalLayout"
+    android:layout_alignParentStart="true"
+    android:background="#ffffff"
+    >
 
     <LinearLayout
 
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:layout_height="100dp"
-        android:background="#ffffff"
-        android:id="@+id/buttonLayout"
         android:orientation="horizontal"
+        android:id="@+id/buttonLayout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
 
 
 
-</LinearLayout>
-
+ </LinearLayout>
+</HorizontalScrollView>
 
 
 </RelativeLayout>

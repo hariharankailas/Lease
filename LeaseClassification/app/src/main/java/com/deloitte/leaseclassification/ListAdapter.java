@@ -7,7 +7,8 @@ import android.content.Context;
 import android.os.Build;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.RelativeSizeSpan;
+        import android.text.TextUtils;
+        import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -52,8 +53,11 @@ public class ListAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         View inflater = LayoutInflater.from(getContext()).inflate(R.layout.bubblelist,parent,false);
         TextView text = (TextView)inflater.findViewById(R.id.text1);
+        TextView text2 = (TextView)inflater.findViewById(R.id.textView2);
+        RelativeLayout rl = (RelativeLayout)inflater.findViewById(R.id.relativeLayout);
 
-    Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
+
+        //   Animation slideUp = AnimationUtils.loadAnimation(getContext(), R.anim.slide_up);
         text.setText(a.get(position));
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
 
@@ -72,8 +76,8 @@ public class ListAdapter extends ArrayAdapter<String> {
             text.setBackground(getContext().getResources().getDrawable(R.drawable.round_green_bg));
             text.setTextColor(getContext().getResources().getColor(R.color.buttonHolder));
             text.setGravity(Gravity.CENTER);
-            text.setAnimation(slideUp);
-            text.startAnimation(slideUp);
+        //    text.setAnimation(slideUp);
+          //  text.startAnimation(slideUp);
         }
         else
         {
@@ -90,11 +94,13 @@ public class ListAdapter extends ArrayAdapter<String> {
                 text.setCompoundDrawablesWithIntrinsicBounds(R.drawable.exclamation, 0, 0, 0);
                 text.setCompoundDrawablePadding(60);
                 text.setTextSize(20);
-                text.setBackground(getContext().getResources().getDrawable(R.drawable.round_gradient_bg));
-               // text.setText(Html.fromHtml("<h5>Contract contains </h5>"+ "<h1>"+"LEASE"));
+                rl.setBackground(getContext().getResources().getDrawable(R.drawable.round_gradient_bg));
+                text.setBackground(getContext().getResources().getColor());
                 final SpannableString textToShow = new SpannableString("Contract contains a Lease");
+
+
                 textToShow.setSpan(new RelativeSizeSpan(2f), textToShow.length() - "Lease".length(),textToShow.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-                text.setText(textToShow);
+                text2.setText("Lease");
 
             }
             if(a.get(position).equals("Lessee classifies lease as a finance lease")){

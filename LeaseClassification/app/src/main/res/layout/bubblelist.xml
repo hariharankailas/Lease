@@ -4,6 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
     android:padding="10dp"
     android:minWidth="140dp">
 
@@ -13,6 +14,18 @@
         android:id="@+id/text1"
         android:padding="10dp"
         android:background="@drawable/round_green_bg"
-        android:minEms="5"
-        />
+        android:minEms="5">
+    </TextView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/textView2"
+        android:background="#01000000"
+        android:layout_alignBottom="@+id/text1"
+        android:layout_alignRight="@+id/text1"
+        android:layout_alignEnd="@+id/text1"
+        android:textSize="40dp"/>
+
 </RelativeLayout>

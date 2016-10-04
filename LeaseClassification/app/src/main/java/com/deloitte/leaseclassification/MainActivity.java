@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -45,8 +46,10 @@ public class MainActivity extends AppCompatActivity {
     private ListAdapter adapter;
     private ListView list;
     private boolean isRefreshing;
+    private boolean isPressed;
     private  View headerView;
     private ImageView icon;
+    LinearLayout mLinearLayout;
 
 
 //    private static int o =0;
@@ -58,11 +61,14 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
         list= (ListView)findViewById(R.id.bubbleList);
+        mLinearLayout = (LinearLayout)findViewById(R.id.buttonLayout);
+
         //CENTERING THE LEASE LOGO
         list.setPadding(0,400,0,0);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action);
         icon = (ImageView)findViewById(R.id.action_bar_forward);
+
         icon.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -74,9 +80,7 @@ public class MainActivity extends AppCompatActivity {
         icon.setEnabled(false);
 
         populateModel();
-        LinearLayout linear = (LinearLayout)findViewById(R.id.buttonLayout);
-        linear.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-
+        mLinearLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         SetInitialList();
 
     }
@@ -249,8 +253,9 @@ public class MainActivity extends AppCompatActivity {
                     buttonText.clear();
 
                 //To avoid multiple button generation on multiple tap on the refresh button
-                LinearLayout linear = (LinearLayout)findViewById(R.id.buttonLayout);
-                linear.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
+                mLinearLayout.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
+
+
                     dynamicButtonId.add(1);
                     dynamicButtonId.add(5);
                     noOfOptions = dynamicButtonId.size();
@@ -272,8 +277,6 @@ public class MainActivity extends AppCompatActivity {
     public void DynamicButtons(int noOfButtons, ArrayList<Integer> buttonId, ArrayList<String> buttonText) {
 
         //Linear layout where the buttons will appear,positioned just below the listView
-        final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.buttonLayout);
-
         //Creating the Buttons dynamically and adding the id and text.
         Animation buttonSLide = AnimationUtils.loadAnimation(this, R.anim.slide_button);
 
@@ -288,9 +291,10 @@ public class MainActivity extends AppCompatActivity {
             mButton.setTextColor(this.getResources().getColor(R.color.buttonHolder));
             mButton.setBackground(this.getResources().getDrawable(R.drawable.round_button));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(40, 0, 0, 0);
-            mButton.setPadding(60,12,60,0);
+            layoutParams.setMargins(60, 0, 60, 0);
+            mButton.setPadding(70,12,70,0);
             mButton.setLayoutParams(layoutParams);
+            mButton.setEnabled(true);
 
             //Adding the button to the user interface
 //            mButton.clearAnimation();
@@ -330,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     //Remove the buttons of the screen on click
 //                    mLinearLayout.removeAllViews();
+                    isPressed = true;
+                    mButton.setEnabled(false);
                     icon.setEnabled(true);
                     Animation buttonSLideExit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_button_exit);
                     mLinearLayout.startAnimation(buttonSLideExit);
@@ -388,6 +394,7 @@ public class MainActivity extends AppCompatActivity {
                     listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
 
                     adapter.notifyDataSetChanged();
+                    isPressed = false;
 
                     //Adding the value of the button chosen to the screen
 
@@ -407,13 +414,12 @@ public class MainActivity extends AppCompatActivity {
 
    public void refresh(){
        if(!isRefreshing) {
+           mLinearLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
            list.setPadding(0, 400, 0, 0);
            listViewArray.clear();
            list.removeHeaderView(headerView);
            adapter.notifyDataSetChanged();
-           LinearLayout linearLayout = (LinearLayout) findViewById(R.id.buttonLayout);
-           linearLayout.removeAllViews();
-           // Log.i("000","refresh clicked");
+           mLinearLayout.removeAllViews();
            SetInitialList();
            isRefreshing = true;
            icon.setEnabled(false);

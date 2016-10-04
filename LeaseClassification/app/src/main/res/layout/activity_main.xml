@@ -24,7 +24,8 @@
         android:background="@color/colorAccent"
         android:transcriptMode="alwaysScroll">
     </ListView>
-<HorizontalScrollView
+
+    <HorizontalScrollView
     android:layout_width="match_parent"
     android:fillViewport="true"
     android:layout_height="wrap_content"

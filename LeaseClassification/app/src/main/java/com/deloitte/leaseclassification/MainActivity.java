@@ -5,14 +5,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -246,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
                     dynamicButtonId.add(14);
                     noOfOptions = dynamicButtonId.size();
                     buttonText.add("Yes");
-                    buttonText.add("No tell me more");
+                    buttonText.add("No maybe later");
                     DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
                     isRefreshing = false;
             }
@@ -376,12 +374,16 @@ public class MainActivity extends AppCompatActivity {
         dynamicButtonId.clear();
         buttonText.clear();
         //when the dynamic button to restart is clicked
+        refreshIcon.setEnabled(false);
         if (id == 0) {
+
             isRefreshing = false;
+
             refresh();
         }
 
         else {
+            refreshIcon.setEnabled(true);
             for (int i = 0; i < mLeaseVO.getQuestion().size(); i++) {
                 //Adding the QuestionsVO corresponding to the button click
                 if (Integer.parseInt(mLeaseVO.getQuestion().get(i).getId()) == id) {

@@ -3,12 +3,12 @@
   "intro": [
     "Hi",
     "I am the Lease Determination App",
-    "I can help you decide whether a contract is a lease and whether it is a finance lease or operating lease"
+    "I can help you decide whether a contract is a lease. If it is a lease, i can tell you whether it is a finance lease or an operating lease"
   ],
   "questionsVOs":[
     {
       "id": "0",
-      "question": "Does the customer have the right to obtain substantially all of the economic benefits from use?",
+      "question": "Does the customer have the right to obtain substantially all of the economic benefits from the asset's use?",
       "options":[
         "Yes",
         "No"
@@ -166,7 +166,7 @@
           "question": "Shall we get started?",
           "options": [
             "Yes",
-            "No,tell me more"
+            "No,maybe later"
           ],
           "question_ids": [
             "0",

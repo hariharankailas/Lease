@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -319,7 +320,12 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     refreshIcon.setEnabled(false);
                     dButton.setEnabled(false);
+                    for (int i = 0; i < buttonLayout.getChildCount(); i++) {
+                        View child = buttonLayout.getChildAt(i);
 
+                            child.setEnabled(false);
+
+                    }
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
 

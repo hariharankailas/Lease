@@ -1,7 +1,7 @@
 {
   "title": "Lease Classification",
   "intro": [
-    "hi",
+    "Hi",
     "I am the Lease Determination App",
     "I can help you decide whether a contract is a lease and whether it is a finance lease or operating lease"
   ],
@@ -10,8 +10,8 @@
       "id": "0",
       "question": "Does the customer have the right to obtain substantially all of the economic benefits from use?",
       "options":[
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "1",
@@ -36,8 +36,8 @@
       "id": "2",
       "question": "Does the customer have the right to operate the asset?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "4",
@@ -48,8 +48,8 @@
       "id": "3",
       "question": "Did the customer design the asset?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "4",
@@ -79,8 +79,8 @@
       "id": "6",
       "question": "Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "11",
@@ -91,8 +91,8 @@
       "id": "7",
       "question": "Does the lease grant the lessee an option to purchase the underlying asset that the lessee is reasonably certain to exercise?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
 
       ],
       "question_ids": [
@@ -106,8 +106,8 @@
       "id": "8",
       "question": "Is the lease term for a major part of the remaining economic life of the underlying asset?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
 
       ],
       "question_ids": [
@@ -120,8 +120,8 @@
       "id": "9",
       "question": "Does the present value of the sum of (1) the lease payments and (2) any lease residual value guarantee not reflected in the lease payments, equal or exceed substantially all of the underlying asset’s fair value?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
 
       ],
       "question_ids": [
@@ -133,8 +133,8 @@
       "id": "10",
       "question": "Is the underlying asset of such a specialized nature that it is expected to have no alternative use to the lessor at the end of the lease term?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "11",
@@ -160,6 +160,28 @@
       "question_ids": [
         "0"
       ]
-    }
+    },
+    {
+          "id": "13",
+          "question": "Shall we get started?",
+          "options": [
+            "Yes",
+            "No,tell me more"
+          ],
+          "question_ids": [
+            "0",
+            "14"
+          ]
+        },
+        {
+              "id": "14",
+              "question": "Thank you",
+              "options": [
+                "Restart"
+              ],
+              "question_ids": [
+                "0"
+              ]
+            }
   ]
 }

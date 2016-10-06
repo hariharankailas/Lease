@@ -5,6 +5,7 @@ package com.deloitte.leaseclassification;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -12,6 +13,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,6 +56,7 @@ public class ListAdapter extends ArrayAdapter<String> {
         if(position==0||position==1||position==2)
         {
             text.setBackgroundColor(getContext().getResources().getColor(R.color.appBubble));
+            text.setTextColor(getContext().getResources().getColor(R.color.userBubble));
             lp.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             text.setBackground(getContext().getResources().getDrawable(R.drawable.round_intro));
             text.setLayoutParams(lp);
@@ -64,6 +68,7 @@ public class ListAdapter extends ArrayAdapter<String> {
             text.setBackground(getContext().getResources().getDrawable(R.drawable.round_green_bg));
             text.setTextColor(getContext().getResources().getColor(R.color.buttonHolder));
             text.setGravity(Gravity.CENTER);
+
         }
         else
         {
@@ -91,7 +96,7 @@ public class ListAdapter extends ArrayAdapter<String> {
                 text.setCompoundDrawablePadding(60);
                 text.setTextSize(17);
                 text.setBackground(getContext().getResources().getDrawable(R.drawable.round_gradient_bg));
-                // text.setText(Html.fromHtml("<h5>Contract contains </h5>"+ "<h1>"+"LEASE"));
+                // text.setText(Html.fromHtml("<p>Contract contains </p>"+ "<h1>"+"LEASE"));
                 final SpannableString textToShow = new SpannableString("Lessee classifies lease as a Finance Lease");
                 textToShow.setSpan(new RelativeSizeSpan(2f), textToShow.length() - "Finance Lease".length(),textToShow.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 text.setText(textToShow);

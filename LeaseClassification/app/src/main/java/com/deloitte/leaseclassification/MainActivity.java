@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.nhaarman.listviewanimations.appearance.simple.ScaleInAnimationAdapter;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 
 import org.json.JSONArray;
@@ -44,32 +46,36 @@ public class MainActivity extends AppCompatActivity {
     private ImageView refreshIcon;//Refresh Icon
     private LinearLayout buttonLayout;//Button Layout
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        chatList = (ListView)findViewById(R.id.bubbleList);
-        buttonLayout = (LinearLayout)findViewById(R.id.buttonLayout);
 
-        //CENTERING THE LEASE LOGO
-        chatList.setPadding(0,400,0,0);
+        //Setting the custom action bar
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action);
-        refreshIcon = (ImageView)findViewById(R.id.action_bar_forward);
-        refreshIcon.setOnClickListener(new View.OnClickListener() {
 
+        chatList = (ListView)findViewById(R.id.bubbleList);
+        //CENTERING THE LEASE LOGO
+        chatList.setPadding(0,400,0,0);
+        buttonLayout = (LinearLayout)findViewById(R.id.buttonLayout);
+
+        refreshIcon = (ImageView)findViewById(R.id.action_bar_forward);
+        refreshIcon.setEnabled(false);
+        refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                refresh();
+                isRefreshing=false;
+                 refresh();
             }
         });
 
-        refreshIcon.setEnabled(false);
+
         populateModel();
         buttonLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
         SetInitialList();
-
     }
 
     private StringBuffer dynamicParse() {
@@ -183,9 +189,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Animation
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(listAdapter);
-        swingBottomInAnimationAdapter.setAbsListView(chatList);
-        swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
-        chatList.setAdapter(swingBottomInAnimationAdapter);
+//        swingBottomInAnimationAdapter.setAbsListView(chatList);
+//        swingBottomInAnimationAdapter.getViewAnimator().setAnimationDelayMillis(200);
+        ScaleInAnimationAdapter scaleInAnimationAdapter = new ScaleInAnimationAdapter(swingBottomInAnimationAdapter);
+        scaleInAnimationAdapter.setAbsListView(chatList);
+        chatList.setAdapter(scaleInAnimationAdapter);
 
         //Delay introduced for the start screen logo
         Handler handler = new Handler();
@@ -210,6 +218,7 @@ public class MainActivity extends AppCompatActivity {
             public void onFinish() {
 
                 Log.v("timer","success");
+
             }
         }.start();
 
@@ -222,23 +231,26 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             public void onFinish() {
-                    listViewArray.add(mLeaseVO.getQuestion().get(0).getQuestion());
+
+                    listViewArray.add(mLeaseVO.getQuestion().get(13).getQuestion());
                     listAdapter.notifyDataSetChanged();
+                    chatList.smoothScrollToPosition(listAdapter.getCount(),500);
                     dynamicButtonId.clear();
                     buttonText.clear();
 
                 //To avoid multiple button generation on multiple tap on the refresh button
-                buttonLayout.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
 
+                buttonLayout.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
                     dynamicButtonId.add(1);
-                    dynamicButtonId.add(5);
+                    dynamicButtonId.add(14);
                     noOfOptions = dynamicButtonId.size();
-                    buttonText.add("yes");
-                    buttonText.add("no");
+                    buttonText.add("Yes");
+                    buttonText.add("No tell me more");
                     DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
                     isRefreshing = false;
             }
         }.start();
+
 
     }
 
@@ -288,28 +300,41 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
 
                 @Override
                 public void run() {
+
                     buttonLayout.addView(dButton);
+
+
                 }
-            }, 800);
+            }, 700);
 
 
             dButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    refreshIcon.setEnabled(false);
                     dButton.setEnabled(false);
-                    refreshIcon.setEnabled(true);
+
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            refreshIcon.setEnabled(true);
+                        }
+                    },2100);
                     Animation buttonSLideExit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_button_exit);
                     buttonLayout.startAnimation(buttonSLideExit);
                     buttonSLideExit.setAnimationListener(new Animation.AnimationListener() {
                         @Override
                         public void onAnimationStart(Animation animation) {
-
+                           // Animation buttonSlideUp=AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_up);
+                            //dButton.startAnimation(buttonSlideUp);
                         }
 
                         @Override
@@ -336,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+
     }
 
     //Take the id from the parameter and update the Questions in the listview and
@@ -345,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
         buttonText.clear();
         //when the dynamic button to restart is clicked
         if (id == 0) {
+            isRefreshing = false;
             refresh();
         }
 
@@ -355,27 +382,45 @@ public class MainActivity extends AppCompatActivity {
 
                     listViewArray.add(answer);
                     listAdapter.notifyDataSetChanged();
-                    listViewArray.add(mLeaseVO.getQuestion().get(i).getQuestion());
+                    chatList.smoothScrollToPosition(listAdapter.getCount(),500);
 
-                    listAdapter.notifyDataSetChanged();
+                    Handler handler = new Handler();
+                    final int finalI = i;
+                    final int finalI1 = i;
+                    handler.postDelayed(new Runnable() {
 
-                    //Adding the value of the button chosen to the screen
-                    //Populating the dynamicButtonId with the options to create the next set of buttons dynamically
-                    for (int j = 0; j < mLeaseVO.getQuestion().get(i).getQuestionIds().size(); j++) {
-                        dynamicButtonId.add(Integer.parseInt(mLeaseVO.getQuestion().get(i).getQuestionIds().get(j)));
-                        buttonText.add(mLeaseVO.getQuestion().get(i).getOptions().get(j));
-                    }
+                        @Override
+                        public void run() {
 
-                    noOfOptions = dynamicButtonId.size();
-                    DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
-                }
+                            listViewArray.add(mLeaseVO.getQuestion().get(finalI).getQuestion());
+                            listAdapter.notifyDataSetChanged();
+                            chatList.smoothScrollToPosition(listAdapter.getCount(),500);
+
+
+
+                            //Adding the value of the button chosen to the screen
+                            //Populating the dynamicButtonId with the options to create the next set of buttons dynamically
+                            for (int j = 0; j < mLeaseVO.getQuestion().get(finalI1).getQuestionIds().size(); j++) {
+                                dynamicButtonId.add(Integer.parseInt(mLeaseVO.getQuestion().get(finalI1).getQuestionIds().get(j)));
+                                buttonText.add(mLeaseVO.getQuestion().get(finalI1).getOptions().get(j));
+                            }
+
+                            noOfOptions = dynamicButtonId.size();
+                            DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
+                        }
+
+                    }, 800);
+
+
 
             }
         }
-    }
+    }}
 
    public void refresh(){
+
        if(!isRefreshing) {
+
            buttonLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
            chatList.setPadding(0,400,0,0);
            listViewArray.clear();

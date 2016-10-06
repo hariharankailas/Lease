@@ -9,4 +9,5 @@
     <color name="answerButton">#8695ac</color>
     <color name="buttonHolder">#ffffff</color>
     <color name="transparent">#01000000</color>
+    <color name="black">#000000</color>
 </resources>

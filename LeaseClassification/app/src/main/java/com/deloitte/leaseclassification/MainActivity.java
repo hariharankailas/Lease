@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView refreshIcon;//Refresh Icon
     private LinearLayout buttonLayout;//Button Layout
 
+    private String TAG = "MainActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +58,18 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowCustomEnabled(true);
         getSupportActionBar().setCustomView(R.layout.custom_action);
 
-        chatList = (ListView)findViewById(R.id.bubbleList);
+        chatList = (ListView) findViewById(R.id.bubbleList);
         //CENTERING THE LEASE LOGO
-        chatList.setPadding(0,400,0,0);
-        buttonLayout = (LinearLayout)findViewById(R.id.buttonLayout);
+        chatList.setPadding(0, 400, 0, 0);
+        buttonLayout = (LinearLayout) findViewById(R.id.buttonLayout);
 
-        refreshIcon = (ImageView)findViewById(R.id.action_bar_forward);
+        refreshIcon = (ImageView) findViewById(R.id.action_bar_forward);
         refreshIcon.setEnabled(false);
         refreshIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                isRefreshing=false;
-                 refresh();
+                isRefreshing = false;
+                refresh();
             }
         });
 
@@ -84,20 +86,20 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(
-                     new InputStreamReader(getAssets().open("Dynamic copy.txt"), "UTF-8"));
+                    new InputStreamReader(getAssets().open("Dynamic copy.txt"), "UTF-8"));
 
             // do reading, usually loop until end of file reading
             while ((temp = reader.readLine()) != null) {
                 buffer.append(temp);
             }
         } catch (IOException e) {
-            Log.e("IOException 1",""+e);
+            Log.e("IOException 1", "" + e);
         } finally {
             if (reader != null) {
                 try {
                     reader.close();
                 } catch (IOException e) {
-                    Log.e("IOException 2",""+e);
+                    Log.e("IOException 2", "" + e);
                 }
             }
         }
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-//The part where all the JSON data is processed and is used to populate the model.
+    //The part where all the JSON data is processed and is used to populate the model.
     private void populateModel() {
 
         theJSON = dynamicParse().toString();
@@ -179,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
     private void SetInitialList() {
         //Initially the intro and the first question is loaded.
         chatList = (ListView) findViewById(R.id.bubbleList);
-        listAdapter = new ListAdapter(getBaseContext(), R.layout.bubblelist,listViewArray);
+        listAdapter = new ListAdapter(getBaseContext(), R.layout.bubblelist, listViewArray);
 
         //Setting the header logo
         headerView = ((LayoutInflater) this.getSystemService(this.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logo_header, null, false);
@@ -198,17 +200,18 @@ public class MainActivity extends AppCompatActivity {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
 
-                @Override
-                public void run() {
-                    setInitialParams();
-                }
-            }, 2500);
+            @Override
+            public void run() {
+                setInitialParams();
+            }
+        }, 2500);
     }
 
     //Initially setting the listView with the intro
     private void setInitialParams() {
         new CountDownTimer(500, 1) {
             int chatPadding = chatList.getPaddingTop();
+
             public void onTick(long millisUntilFinished) {
                 chatList.setPadding(0, (chatPadding - 15), 0, 0);
                 chatPadding = chatPadding - 15;
@@ -216,37 +219,38 @@ public class MainActivity extends AppCompatActivity {
 
             public void onFinish() {
 
-                Log.v("timer","success");
+                Log.v("timer", "success");
 
             }
         }.start();
 
         new CountDownTimer(1200, 300) {
-            int introCount =0;
+            int introCount = 0;
+
             public void onTick(long millisUntilFinished) {
                 listViewArray.add(mLeaseVO.getIntro().get(introCount));
                 listAdapter.notifyDataSetChanged();
                 introCount++;
-                }
+            }
 
             public void onFinish() {
 
-                    listViewArray.add(mLeaseVO.getQuestion().get(13).getQuestion());
-                    listAdapter.notifyDataSetChanged();
-                    chatList.smoothScrollToPosition(listAdapter.getCount(),500);
-                    dynamicButtonId.clear();
-                    buttonText.clear();
+                listViewArray.add(mLeaseVO.getQuestion().get(13).getQuestion());
+                listAdapter.notifyDataSetChanged();
+                chatList.smoothScrollToPosition(listAdapter.getCount(), 500);
+                dynamicButtonId.clear();
+                buttonText.clear();
 
                 //To avoid multiple button generation on multiple tap on the refresh button
 
                 buttonLayout.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
-                    dynamicButtonId.add(1);
-                    dynamicButtonId.add(14);
-                    noOfOptions = dynamicButtonId.size();
-                    buttonText.add("Yes");
-                    buttonText.add("No maybe later");
-                    DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
-                    isRefreshing = false;
+                dynamicButtonId.add(1);
+                dynamicButtonId.add(14);
+                noOfOptions = dynamicButtonId.size();
+                buttonText.add("Yes");
+                buttonText.add("No, maybe later");
+                isRefreshing = false;
+                DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
             }
         }.start();
 
@@ -254,10 +258,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-//The buttons can be added after sleeping for a while.
+    //The buttons can be added after sleeping for a while.
 // with initial id values.
 //Depending on the size of the dynamicButtonId chatList, the number of buttons will be decided.
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public void DynamicButtons(int noOfButtons, ArrayList<Integer> buttonId, ArrayList<String> buttonText) {
         Animation buttonSLide = AnimationUtils.loadAnimation(this, R.anim.slide_button);
@@ -265,17 +268,19 @@ public class MainActivity extends AppCompatActivity {
         final Animation buttonShake = AnimationUtils.loadAnimation(this, R.anim.shake_button);
         for (int i = 0; i < noOfButtons; i++) {
 
+
             int bId = buttonId.get(i);
             String bText = buttonText.get(i);
             final Button dButton = new Button(MainActivity.this);
 
             dButton.setText(bText);
             dButton.setId(bId);
+            dButton.setClickable(false);
             dButton.setTextColor(this.getResources().getColor(R.color.buttonHolder));
             dButton.setBackground(this.getResources().getDrawable(R.drawable.round_button));
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(50, 0,50, 0);
-            dButton.setPadding(70,12,70,0);
+            layoutParams.setMargins(50, 0, 50, 0);
+            dButton.setPadding(70, 12, 70, 0);
             dButton.setLayoutParams(layoutParams);
             dButton.setEnabled(true);
 
@@ -289,7 +294,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onAnimationEnd(Animation animation) {
 
-                   buttonLayout.startAnimation(buttonShake);
+                    buttonLayout.startAnimation(buttonShake);
+//                    dButton.setClickable(true);
 
                 }
 
@@ -299,74 +305,71 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
+            buttonLayout.addView(dButton);
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-
+            new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
-                    buttonLayout.addView(dButton);
-
-
+                    setClickListener(dButton);
                 }
-            }, 700);
+            },500);
 
-
-            dButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    refreshIcon.setEnabled(false);
-                    dButton.setEnabled(false);
-                    for (int i = 0; i < buttonLayout.getChildCount(); i++) {
-                        View child = buttonLayout.getChildAt(i);
-
-                            child.setEnabled(false);
-
-                    }
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            refreshIcon.setEnabled(true);
-                        }
-                    },2100);
-                    Animation buttonSLideExit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_button_exit);
-                    buttonLayout.startAnimation(buttonSLideExit);
-                    buttonSLideExit.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                           // Animation buttonSlideUp=AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_up);
-                            //dButton.startAnimation(buttonSlideUp);
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-
-                                buttonLayout.removeAllViews();
-
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    Vibrator vibration = (Vibrator) getSystemService(MainActivity.this.VIBRATOR_SERVICE);
-                    vibration.vibrate(100);
-
-
-
-                    //Adds the next set of questions depending the button clicked.
-                    addQuestion(dButton.getId(), (String) dButton.getText());
-                    //clear the prevoius contents of the dynamicButtonId,as a new set of values are updated on click.
-                    dynamicButtonId.clear();
-                }
-            });
         }
 
     }
+
+    private void setClickListener(final Button dButton){
+        dButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshIcon.setEnabled(false);
+                dButton.setEnabled(false);
+                for (int i = 0; i < buttonLayout.getChildCount(); i++) {
+                    View child = buttonLayout.getChildAt(i);
+
+                    child.setEnabled(false);
+
+                }
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refreshIcon.setEnabled(true);
+                    }
+                }, 2100);
+
+                buttonLayout.removeAllViews();
+                addQuestion(dButton.getId(), (String) dButton.getText());
+//                            dynamicButtonId.clear();
+                Vibrator vibration = (Vibrator) getSystemService(MainActivity.this.VIBRATOR_SERVICE);
+                vibration.vibrate(100);
+
+                Animation buttonSLideExit = AnimationUtils.loadAnimation(MainActivity.this, R.anim.slide_button_exit);
+                buttonLayout.startAnimation(buttonSLideExit);
+                buttonSLideExit.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+
+                        buttonLayout.removeAllViews();
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+
+            }
+        });
+    }
+
+
 
     //Take the id from the parameter and update the Questions in the listview and
     // update the new set of buttons by calling the method dynamicButtons() with new parameters depending the new question added
@@ -380,17 +383,15 @@ public class MainActivity extends AppCompatActivity {
             isRefreshing = false;
 
             refresh();
-        }
+        } else {
 
-        else {
-            refreshIcon.setEnabled(true);
             for (int i = 0; i < mLeaseVO.getQuestion().size(); i++) {
                 //Adding the QuestionsVO corresponding to the button click
                 if (Integer.parseInt(mLeaseVO.getQuestion().get(i).getId()) == id) {
 
                     listViewArray.add(answer);
                     listAdapter.notifyDataSetChanged();
-                    chatList.smoothScrollToPosition(listAdapter.getCount(),500);
+                    chatList.smoothScrollToPosition(listAdapter.getCount(), 500);
 
                     Handler handler = new Handler();
                     final int finalI = i;
@@ -402,9 +403,7 @@ public class MainActivity extends AppCompatActivity {
 
                             listViewArray.add(mLeaseVO.getQuestion().get(finalI).getQuestion());
                             listAdapter.notifyDataSetChanged();
-                            chatList.smoothScrollToPosition(listAdapter.getCount(),500);
-
-
+                            chatList.smoothScrollToPosition(listAdapter.getCount(), 500);
 
                             //Adding the value of the button chosen to the screen
                             //Populating the dynamicButtonId with the options to create the next set of buttons dynamically
@@ -420,24 +419,24 @@ public class MainActivity extends AppCompatActivity {
                     }, 800);
 
 
-
+                }
             }
         }
-    }}
+    }
 
-   public void refresh(){
+    public void refresh() {
 
-       if(!isRefreshing) {
+        if (!isRefreshing) {
 
-           buttonLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
-           chatList.setPadding(0,400,0,0);
-           listViewArray.clear();
-           chatList.removeHeaderView(headerView);
-           listAdapter.notifyDataSetChanged();
-           buttonLayout.removeAllViews();
-           SetInitialList();
-           isRefreshing = true;
-           refreshIcon.setEnabled(false);
-       }
+            buttonLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+            chatList.setPadding(0, 400, 0, 0);
+            listViewArray.clear();
+            chatList.removeHeaderView(headerView);
+            listAdapter.notifyDataSetChanged();
+            buttonLayout.removeAllViews();
+            SetInitialList();
+            isRefreshing = true;
+            refreshIcon.setEnabled(false);
+        }
     }
 }

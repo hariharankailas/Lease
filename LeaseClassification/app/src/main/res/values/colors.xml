@@ -2,10 +2,12 @@
 <resources>
     <color name="colorPrimary">#46CEC5</color>
     <color name="colorPrimaryDark">#46CEC5</color>
-    <color name="colorAccent">#EFF3F6</color>
+    <color name="colorAccent">#f8f9fa</color>
     <color name="appBubble">#EFF3F6</color>
     <color name="userBubble">#6E7A89</color>
     <color name="answerBubble">#46CEC5</color>
-    <color name="answerButton">#7A8DAA</color>
+    <color name="answerButton">#8695ac</color>
     <color name="buttonHolder">#ffffff</color>
+    <color name="transparent">#01000000</color>
+    <color name="black">#000000</color>
 </resources>

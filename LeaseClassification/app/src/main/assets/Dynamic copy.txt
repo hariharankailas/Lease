@@ -1,17 +1,17 @@
 {
   "title": "Lease Classification",
   "intro": [
-    "hi",
+    "Hi",
     "I am the Lease Determination App",
-    "I can help you decide whether a contract is a lease and whether it is a finance lease or operating lease"
+    "I can help you decide whether a contract is a lease. If it is a lease, i can tell you whether it is a finance lease or an operating lease"
   ],
   "questionsVOs":[
     {
       "id": "0",
-      "question": "Does the customer have the right to obtain substantially all of the economic benefits from use?",
+      "question": "Does the customer have the right to obtain substantially all of the economic benefits from the asset's use?",
       "options":[
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "1",
@@ -27,18 +27,17 @@
         "Supplier"
       ],
       "question_ids": [
-        "2",
+        "4",
         "2",
         "5"
       ]
     },
-
     {
       "id": "2",
       "question": "Does the customer have the right to operate the asset?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "4",
@@ -49,8 +48,8 @@
       "id": "3",
       "question": "Did the customer design the asset?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "4",
@@ -61,7 +60,7 @@
       "id": "4",
       "question": "Contract contains a lease",
       "options": [
-        "NEXT STEP"
+        "Continue"
       ],
       "question_ids": ["6"
       ]
@@ -70,7 +69,7 @@
       "id": "5",
       "question": "Contract does not contain a lease",
       "options": [
-        "THE END"
+        "Cancel and Redo"
       ],
       "question_ids": ["0"
 
@@ -80,8 +79,8 @@
       "id": "6",
       "question": "Does the lease transfer ownership of the underlying asset to the lessee by the end of the lease term?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "11",
@@ -92,8 +91,8 @@
       "id": "7",
       "question": "Does the lease grant the lessee an option to purchase the underlying asset that the lessee is reasonably certain to exercise?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
 
       ],
       "question_ids": [
@@ -107,8 +106,8 @@
       "id": "8",
       "question": "Is the lease term for a major part of the remaining economic life of the underlying asset?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
 
       ],
       "question_ids": [
@@ -121,8 +120,8 @@
       "id": "9",
       "question": "Does the present value of the sum of (1) the lease payments and (2) any lease residual value guarantee not reflected in the lease payments, equal or exceed substantially all of the underlying asset’s fair value?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
 
       ],
       "question_ids": [
@@ -134,8 +133,8 @@
       "id": "10",
       "question": "Is the underlying asset of such a specialized nature that it is expected to have no alternative use to the lessor at the end of the lease term?",
       "options": [
-        "yes",
-        "no"
+        "Yes",
+        "No"
       ],
       "question_ids": [
         "11",
@@ -144,23 +143,59 @@
     },
     {
       "id": "11",
-      "question": "Lesse classifies lease as a finance lease",
+      "question": "Lessee classifies lease as a finance lease",
       "options": [
-       "RESTART"
+       "Restart"
       ],
       "question_ids": [
-        "0"
+        "40"
       ]
     },
      {
       "id": "12",
       "question": "Lessee classifies lease as an operating lease",
       "options": [
-        "RESTART"
+        "Restart"
       ],
       "question_ids": [
-        "0"
+        "40"
       ]
-    }
+    },
+    {
+          "id": "13",
+          "question": "Shall we get started?",
+          "options": [
+            "Yes",
+            "No,Tell me more"
+          ],
+          "question_ids": [
+            "15",
+            "14"
+          ]
+        },
+        {
+              "id": "14",
+              "question": "The lease determination app helps you determine two aspects of a contract related to the ASU 842 lease standard: (1) does a contract contains a lease per the standards, (2) classification of the lease as either Finance or Operating per the standard",
+              "options": [
+                "Go back"
+              ],
+              "question_ids": [
+                "40"
+              ]
+            },
+
+            {
+                          "id": "15",
+                          "question": "What would you like to do?",
+                          "options": [
+                            "Lease Determination",
+                            "Lease Classification"
+
+                          ],
+                          "question_ids": [
+                            "0",
+                            "6"
+                          ]
+                        }
   ]
 }

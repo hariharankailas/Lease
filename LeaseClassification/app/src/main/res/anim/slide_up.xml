@@ -4,9 +4,9 @@
     android:shareInterpolator="true" >
 
     <translate
-        android:duration="800"
+        android:duration="400"
         android:fromXDelta="0"
-        android:fromYDelta="60%"
+        android:fromYDelta="-60%"
         android:toXDelta="0"
         android:toYDelta="0" />
 

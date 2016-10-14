@@ -4,6 +4,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/relativeLayout"
     android:padding="10dp"
     android:minWidth="140dp">
 
@@ -12,7 +13,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/text1"
         android:padding="10dp"
-        android:minEms="5"
-        />
+        android:background="@drawable/round_green_bg"
+        android:minEms="5">
+    </TextView>
+
 
 </RelativeLayout>

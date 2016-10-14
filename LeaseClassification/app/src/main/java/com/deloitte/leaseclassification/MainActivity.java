@@ -244,11 +244,11 @@ public class MainActivity extends AppCompatActivity {
                 //To avoid multiple button generation on multiple tap on the refresh button
 
                 buttonLayout.setBackgroundColor(getResources().getColor(R.color.buttonHolder));
-                dynamicButtonId.add(1);
+                dynamicButtonId.add(15);
                 dynamicButtonId.add(14);
                 noOfOptions = dynamicButtonId.size();
                 buttonText.add("Yes");
-                buttonText.add("No, maybe later");
+                buttonText.add("No, tell me more");
                 isRefreshing = false;
                 DynamicButtons(noOfOptions, dynamicButtonId, buttonText);
             }
@@ -378,7 +378,7 @@ public class MainActivity extends AppCompatActivity {
         buttonText.clear();
         //when the dynamic button to restart is clicked
         refreshIcon.setEnabled(false);
-        if (id == 0) {
+        if (id == 40) {
 
             isRefreshing = false;
 

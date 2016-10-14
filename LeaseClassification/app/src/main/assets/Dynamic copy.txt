@@ -148,7 +148,7 @@
        "Restart"
       ],
       "question_ids": [
-        "0"
+        "40"
       ]
     },
      {
@@ -158,7 +158,7 @@
         "Restart"
       ],
       "question_ids": [
-        "0"
+        "40"
       ]
     },
     {
@@ -166,22 +166,36 @@
           "question": "Shall we get started?",
           "options": [
             "Yes",
-            "No,maybe later"
+            "No,Tell me more"
           ],
           "question_ids": [
-            "0",
+            "15",
             "14"
           ]
         },
         {
               "id": "14",
-              "question": "Thank you",
+              "question": "The lease determination app helps you determine two aspects of a contract related to the ASU 842 lease standard: (1) does a contract contains a lease per the standards, (2) classification of the lease as either Finance or Operating per the standard",
               "options": [
-                "Restart"
+                "Go back"
               ],
               "question_ids": [
-                "0"
+                "40"
               ]
-            }
+            },
+
+            {
+                          "id": "15",
+                          "question": "What would you like to do?",
+                          "options": [
+                            "Lease Determination",
+                            "Lease Classification"
+
+                          ],
+                          "question_ids": [
+                            "0",
+                            "6"
+                          ]
+                        }
   ]
 }
